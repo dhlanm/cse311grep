@@ -1,5 +1,7 @@
 import java.util.Set;
 import java.util.HashSet;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public class NFA {
     protected Set<FSMState> states;
@@ -62,6 +64,40 @@ public class NFA {
     /* @returns true if and only if the NFA accepts s. */
     public boolean read(String s) {
         /* TODO: You need to implement this! */
+		HashSet<FSMState> onStates = new HashSet<FSMState>();
+		onStates.add(this.startState);
+		HashMap<String, ArrayList<FSMTransition>> exit = new HashMap<String, ArrayList<FSMTransition>>();
+		for (FSMTransition t : this.transitions) {
+			String k = t.getSource().toString();
+			if(exit.containsKey(k)) {
+				ArrayList<FSMTransition> tmp = exit.get(k);
+				tmp.add(t);
+				exit.put(k, tmp);
+			}
+			else {
+				ArrayList<FSMTransition> tmp = new ArrayList<FSMTransition>();
+				tmp.add(t);
+				exit.put(k, tmp);
+			}
+        }
+		
+		for (char ch: s.toCharArray()) {
+			HashSet<FSMState> newOnStates = new HashSet<FSMState>();
+			for (FSMState state : onStates) {
+				if(exit.containsKey(state.toString())) {
+					for(FSMTransition t : exit.get(state.toString())) {
+						if(t.getCharacter() == ch) {
+							newOnStates.add(t.getDestination());
+						}
+					}
+				}
+			}
+			onStates = new HashSet<FSMState>(newOnStates);
+		}
+		for (FSMState state : onStates) {
+			if(finalStates.contains(state))
+				return true;
+		}
         return false;
     }
 
