@@ -21,11 +21,10 @@ public class NFAConstructionTester {
         System.out.println();
 
         System.out.println("COMPLEX CASES:");
-		//compareNfa("(b*c)", makeComplexCase1());
-        //compareNfa("a|(b*c)", makeComplexCase1());
+        compareNfa("a|(b*c)", makeComplexCase1());
         compareNfa("(a|bc|c)*", makeComplexCase2());
-        //compareNfa("a*b*c*", makeComplexCase3());
-        //compareNfa("(ab|cd*e)fg", makeComplexCase4());
+        compareNfa("a*b*c*", makeComplexCase3());
+        compareNfa("(ab|cd*e)fg", makeComplexCase4());
         System.out.println();
     }
 

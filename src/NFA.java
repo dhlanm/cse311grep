@@ -212,11 +212,11 @@ public class NFA {
 		HashSet<FSMTransition> newT = new HashSet<FSMTransition>();
 		HashMap<String, ArrayList<FSMTransition>> morexit = new HashMap<String, ArrayList<FSMTransition>>();
 		for (FSMTransition t : n.transitions) {
-			if(!epsilonTransitions.contains(t)) {
+			//if(!epsilonTransitions.contains(t)) {
 				newT.add(t);
 				String k = t.getSource().toString();
-				if(exit.containsKey(k)) {
-					ArrayList<FSMTransition> tmp = exit.get(k);
+				if(morexit.containsKey(k)) {
+					ArrayList<FSMTransition> tmp = morexit.get(k);
 					tmp.add(t);
 					morexit.put(k, tmp);
 				}
@@ -225,7 +225,7 @@ public class NFA {
 					tmp.add(t);
 					morexit.put(k, tmp);
 				}
-			}
+			//}
 		}
 		
 		
@@ -234,7 +234,7 @@ public class NFA {
 		for (FSMTransition t : epsilonTransitions) {
 			if(morexit.containsKey(t.getDestination().toString())) {
 				for(FSMTransition good : morexit.get(t.getDestination().toString())) {
-					//System.out.println(newT);
+					//System.out.println(good.getCharacter());
 					newT.add(new FSMTransition(good.getCharacter(), t.getSource(), good.getDestination()));
 					//System.out.println(newT);
 					if(newFinal.contains(t.getDestination())) {

@@ -7,8 +7,8 @@ public class Grep {
 	       MalformedGrammarException,
 	       ExceptionInInitializerError,
            Exception {
-        if (args.length != 1) {
-            System.out.println("Usage: java Grep <regex>");
+        if (args.length != 2) {
+            System.out.println("Usage: java Grep <regex> <file>");
             System.exit(1);
         }
 
@@ -27,9 +27,17 @@ public class Grep {
             System.exit(1);
         }
             
-        System.out.println("Yay!  We parsed the input correctly!");
+        //System.out.println("Yay!  We parsed the input correctly!");
 
-        NFA N = makeNFAFromRegex(parsed);
+        String filename = args[1];
+        //NFA nfa = makeNFAFromRegex(parsed);
+        BufferedReader br = new BufferedReader(new FileReader(filename));
+        String line;
+        NFA nfa = makeNFAFromRegex(parsed);
+        while (null != (line = br.readLine())) {
+            if(nfa.read(line)) System.out.println(line);
+        }
+ 
     }
 
 	public static NFA makeNFAFromRegex(ASTNode n) {

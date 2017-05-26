@@ -157,6 +157,8 @@ public class GrepTester {
             System.out.println("Failed :(");
             String fileString = new Scanner(new File(Paths.get(fileName, "test" + file).toString())).useDelimiter("\\Z").next();
             diff(fileString, grepOut, correct);
+            System.out.println(grepOut+"\n");
+            System.out.println(correct);
             System.exit(1);
         }
         return answer;
